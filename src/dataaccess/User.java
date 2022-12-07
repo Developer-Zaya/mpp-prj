@@ -2,7 +2,7 @@ package dataaccess;
 
 import java.io.Serializable;
 
-final public class User implements Serializable {
+final public class  User implements Serializable {
 	
 	private static final long serialVersionUID = 5147265048973262104L;
 

@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
+
 public class AddMemberWindow {
     public static final AddMemberWindow INSTANCE = new AddMemberWindow();
     private static final String MEMBER_ID = "Member ID";
@@ -35,6 +36,7 @@ public class AddMemberWindow {
     DataAccess da = new DataAccessFacade();
     JFrame bframe;
     DefaultTableModel model;
+    private JPanel panel;
     private HashMap<String, LibraryMember> members;
     private boolean isInitialized = false;
     // private JTextField memberId;
@@ -63,7 +65,9 @@ public class AddMemberWindow {
             }
         });
     }
-
+    public JPanel getPanel(){
+        return panel;
+    }
     public void init() {
         // FRAME
         bframe = new JFrame();
@@ -71,13 +75,28 @@ public class AddMemberWindow {
         bframe.setBounds(100, 100, 600, 500);
         bframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         bframe.getContentPane().setLayout(null);
-
+        initJPanel();
         // PANEL
-        JPanel panel = new JPanel();
+        bframe.getContentPane().add(panel);
+        JButton btnback = new JButton("Back");
+        btnback.addActionListener(evt -> {
+            LibrarySystem.hideAllWindows();
+            LibrarySystem.INSTANCE.setVisible(true);
+            bframe.setVisible(false);
+        });
+        btnback.setBounds(370, 107, 117, 29);
+        panel.add(btnback);
+
+        bframe.setVisible(true);
+        bframe.setTitle("Add Member");
+        isInitialized = true;
+
+    }
+    public void initJPanel(){
+        panel = new JPanel();
         panel.setBackground(new Color(233, 150, 122));
         panel.setBounds(0, 6, 594, 466);
         panel.setLayout(null);
-        bframe.getContentPane().add(panel);
 
         // FIELDS: Label
 //        JLabel memberId = new JLabel(MEMBER_ID);
@@ -309,20 +328,7 @@ public class AddMemberWindow {
         btnclear.setBounds(461, 56, 117, 29);
         panel.add(btnclear);
 
-        JButton btnback = new JButton("Back");
-        btnback.addActionListener(evt -> {
-            LibrarySystem.hideAllWindows();
-            LibrarySystem.INSTANCE.setVisible(true);
-            bframe.setVisible(false);
-        });
-        btnback.setBounds(370, 107, 117, 29);
-        panel.add(btnback);
-
-        bframe.setVisible(true);
-        bframe.setTitle("Add Member");
-        isInitialized = true;
     }
-
     public boolean isInitialized() {
         return isInitialized;
     }
