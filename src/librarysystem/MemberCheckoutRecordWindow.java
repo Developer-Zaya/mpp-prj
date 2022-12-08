@@ -1,6 +1,9 @@
 package librarysystem;
 
-import business.*;
+import business.CheckoutRecord;
+import business.ControllerInterface;
+import business.LibraryMember;
+import business.SystemController;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 
@@ -9,10 +12,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
-public class CheckoutBookWindow {
+public class MemberCheckoutRecordWindow {
     private static final String MEMBER_ID = "Member ID";
     private static final String BOOK_ISBN = "Book ISBN Number";
     private static final String CHECKOUT_DATE = "Checkout Date";
@@ -25,10 +27,9 @@ public class CheckoutBookWindow {
     DataAccess da = new DataAccessFacade();
     JFrame jFrame;
     private JTextField memberId;
-    private JTextField bookIsbn;
     private HashMap<String, CheckoutRecord> records;
 
-    private CheckoutBookWindow() {
+    private MemberCheckoutRecordWindow() {
         recordModel = new DefaultTableModel();
         recordModel.setColumnIdentifiers(RECORD_COLUMN);
         records = da.readUserRecords();
@@ -37,7 +38,7 @@ public class CheckoutBookWindow {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                CheckoutBookWindow window = new CheckoutBookWindow();
+                MemberCheckoutRecordWindow window = new MemberCheckoutRecordWindow();
                 window.init();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -48,7 +49,7 @@ public class CheckoutBookWindow {
     private void init() {
         // FRAME
         jFrame = new JFrame();
-        jFrame.setTitle("Checkout Book");
+        jFrame.setTitle("Member Checkout Record");
         jFrame.getContentPane().setForeground(new Color(255, 255, 255));
         jFrame.setBounds(100, 100, 800, 500);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,65 +71,37 @@ public class CheckoutBookWindow {
         memberId.setBounds(130, 20, 150, 20);
         panel.add(memberId);
 
-        // BookIsbn
-        JLabel lBookIsbn = new JLabel(BOOK_ISBN);
-        lBookIsbn.setBounds(6, 40, 150, 20);
-        panel.add(lBookIsbn);
-
-        bookIsbn = new JTextField();
-        bookIsbn.setBounds(130, 40, 150, 20);
-        panel.add(bookIsbn);
-
         // Button: Checkout
-        JButton btnCheckout = new JButton("Checkout");
-        btnCheckout.setBounds(300, 15, 117, 29);
-        btnCheckout.addActionListener(e -> {
+        JButton btnCheckoutRecord = new JButton("Checkout Record");
+        btnCheckoutRecord.setBounds(300, 15, 117, 29);
+        btnCheckoutRecord.addActionListener(e -> {
             // Validation: Null values
-            if (memberId.getText().isEmpty() || bookIsbn.getText().isEmpty())
+            if (memberId.getText().isEmpty())
                 JOptionPane.showMessageDialog(null, "Please fill all the fields!");
                 // Validation: Member ID exists
             else if (!ci.allMemberIds().contains(memberId.getText()))
                 JOptionPane.showMessageDialog(null, "Member ID does not exist!");
-                // Validation: Book ISBN exists
-            else if (!ci.allBookIds().contains(bookIsbn.getText()))
-                JOptionPane.showMessageDialog(null, "Book ISBN does not exist!");
-
-                // Validation: Book Availability
-            else if (!ci.getBook(bookIsbn.getText()).isAvailable()) {
-                Book book = ci.getBook(bookIsbn.getText());
-                JOptionPane.showMessageDialog(null, String.format("Book: %s(%s) is not available now!", book.getTitle(), book.getIsbn()));
-            } else {
-                Book book = ci.getBook(bookIsbn.getText());
-                System.out.println(book);
+            else {
+                LibraryMember member = ci.getMember(memberId.getText());
+                System.out.println(member);
 
                 // Create: CheckoutRecord
-                LibraryMember member = ci.getMember(memberId.getText());
-                BookCopy copy = book.getNextAvailableCopy();
-                assert copy != null;
-                CheckoutRecord record = new CheckoutRecord(member, copy);
-                book.updateCopies(copy);
-                da.saveAndUpdateBook(book);
-                da.saveNewCheckoutRecord(record);
-                records = da.readUserRecords();
-                recordModel.addRow(new String[]{
-                                record.getLibraryMember().getMemberId(),
-                                record.getBookCopy().getBook().getIsbn(),
-                                String.valueOf(record.getBookCopy().getCopyNum()),
-                                DATE_TIME_FORMATTER.format(record.getCheckoutDate()),
-                                DATE_TIME_FORMATTER.format(record.getDueDate()),
-                        }
-                );
-
-                JOptionPane.showMessageDialog(null, String.format(
-                        "Book '%s'(ISBN: %s, Copy: %s) is checkout by Mr(s) '%s %s'(%s)",
-                        copy.getBook().getTitle(), copy.getBook().getIsbn(), copy.getCopyNum(),
-                        member.getFirstName(), member.getLastName(), member.getMemberId()));
-
+                List<CheckoutRecord> uRecords = da.readUserRecords(member);
+                recordModel.setRowCount(0);
+                for (CheckoutRecord record : uRecords) {
+                    recordModel.addRow(new String[]{
+                                    record.getLibraryMember().getMemberId(),
+                                    record.getBookCopy().getBook().getIsbn(),
+                                    String.valueOf(record.getBookCopy().getCopyNum()),
+                                    DATE_TIME_FORMATTER.format(record.getCheckoutDate()),
+                                    DATE_TIME_FORMATTER.format(record.getDueDate()),
+                            }
+                    );
+                }
                 memberId.setText("");
-                bookIsbn.setText("");
             }
         });
-        panel.add(btnCheckout);
+        panel.add(btnCheckoutRecord);
 
         // Table
         JScrollPane jScrollPane = new JScrollPane();
@@ -138,19 +111,6 @@ public class CheckoutBookWindow {
         JTable jTable = new JTable();
         jTable.setBackground(new Color(255, 240, 245));
         jTable.setModel(recordModel);
-        // Get the keys from the map and create a TreeSet for sorting
-        Set<String> keys = new TreeSet<>(records.keySet());
-        for (String k : keys) {
-            CheckoutRecord v = records.get(k);
-            String[] row = {
-                    v.getLibraryMember().getMemberId(),
-                    v.getBookCopy().getBook().getIsbn(),
-                    String.valueOf(v.getBookCopy().getCopyNum()),
-                    DATE_TIME_FORMATTER.format(v.getCheckoutDate()),
-                    DATE_TIME_FORMATTER.format(v.getDueDate()),
-            };
-            recordModel.addRow(row);
-        }
         jTable.setEnabled(false);
         jScrollPane.setViewportView(jTable);
 
@@ -159,7 +119,6 @@ public class CheckoutBookWindow {
         btnClear.setBounds(450, 15, 117, 29);
         btnClear.addActionListener(e -> {
             memberId.setText("");
-            bookIsbn.setText("");
         });
         panel.add(btnClear);
 
