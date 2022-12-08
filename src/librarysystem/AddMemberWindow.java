@@ -65,9 +65,11 @@ public class AddMemberWindow {
             }
         });
     }
-    public JPanel getPanel(){
+
+    public JPanel getPanel() {
         return panel;
     }
+
     public void init() {
         // FRAME
         bframe = new JFrame();
@@ -92,7 +94,8 @@ public class AddMemberWindow {
         isInitialized = true;
 
     }
-    public void initJPanel(){
+
+    public void initJPanel() {
         panel = new JPanel();
         panel.setBackground(new Color(233, 150, 122));
         panel.setBounds(0, 6, 594, 466);
@@ -214,7 +217,7 @@ public class AddMemberWindow {
             };
             model.addRow(row);
         }
-
+        table.setEnabled(false);
         scrollPane.setViewportView(table);
 
         // ADD -> Save and Add row to table
@@ -329,6 +332,7 @@ public class AddMemberWindow {
         panel.add(btnclear);
 
     }
+
     public boolean isInitialized() {
         return isInitialized;
     }

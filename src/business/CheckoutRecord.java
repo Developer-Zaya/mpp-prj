@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class CheckoutRecord implements Serializable {
+public class CheckoutRecord implements Serializable, Comparable<CheckoutRecord> {
     @Serial
     private static final long serialVersionUID = 2341690276685962829L;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
@@ -48,5 +48,10 @@ public class CheckoutRecord implements Serializable {
 
     public LocalDateTime getCheckoutDate() {
         return checkoutDate;
+    }
+
+    @Override
+    public int compareTo(CheckoutRecord o) {
+        return this.checkoutDate.isBefore(o.checkoutDate) ? 1 : 0;
     }
 }

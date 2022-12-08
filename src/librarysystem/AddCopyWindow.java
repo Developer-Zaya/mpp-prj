@@ -143,6 +143,7 @@ public class AddCopyWindow {
         JTable jTable = new JTable();
         jTable.setBackground(new Color(255, 240, 245));
         jTable.setModel(bookModel);
+        jTable.setEnabled(false);
         jScrollPane.setViewportView(jTable);
 
         // Button Clear
