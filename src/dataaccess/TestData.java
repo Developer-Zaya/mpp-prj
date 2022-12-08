@@ -23,13 +23,17 @@ public class TestData {
 	
 	
 	public static void main(String[] args) {
-		TestData td = new TestData();
-		td.bookData();
-		td.libraryMemberData();
-		td.userData();
+//		TestData td = new TestData();
+//		td.bookData();
+//		td.libraryMemberData();
+//		td.userData();
+//		DataAccess da = new DataAccessFacade();
+//		System.out.println(da.readBooksMap());
+//		System.out.println(da.readUserMap());
+		
 		DataAccess da = new DataAccessFacade();
-		System.out.println(da.readBooksMap());
-		System.out.println(da.readUserMap());
+		String map = da.readBooksMap().toString();
+		System.out.println(map);
 	}
 	///create books
 	public void bookData() {

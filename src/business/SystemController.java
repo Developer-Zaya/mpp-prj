@@ -41,5 +41,10 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 	
+	@Override
+	public void addBook(Book book) {
+		DataAccessFacade daf = new DataAccessFacade();
+		daf.saveNewBook(book);
+	}
 	
 }
