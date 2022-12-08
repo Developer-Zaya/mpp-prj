@@ -151,6 +151,7 @@ public class CheckoutBookWindow {
             };
             recordModel.addRow(row);
         }
+        jTable.setEnabled(false);
         jScrollPane.setViewportView(jTable);
 
         // Button Clear
