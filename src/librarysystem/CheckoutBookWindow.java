@@ -21,6 +21,7 @@ public class CheckoutBookWindow {
     private static final String[] RECORD_COLUMN = {MEMBER_ID, BOOK_ISBN, COPY_NUM, CHECKOUT_DATE, DUE_DATE};
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private final DefaultTableModel recordModel;
+    private static JPanel panel;
     ControllerInterface ci = new SystemController();
     DataAccess da = new DataAccessFacade();
     JFrame jFrame;
@@ -28,7 +29,7 @@ public class CheckoutBookWindow {
     private JTextField bookIsbn;
     private HashMap<String, CheckoutRecord> records;
 
-    private CheckoutBookWindow() {
+    public CheckoutBookWindow() {
         recordModel = new DefaultTableModel();
         recordModel.setColumnIdentifiers(RECORD_COLUMN);
         records = da.readUserRecords();
@@ -44,22 +45,13 @@ public class CheckoutBookWindow {
             }
         });
     }
-
-    private void init() {
-        // FRAME
-        jFrame = new JFrame();
-        jFrame.setTitle("Checkout Book");
-        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
-        jFrame.setBounds(100, 100, 800, 500);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.getContentPane().setLayout(null);
-
+    public void initJPanel(){
         // PANEL
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBackground(new Color(233, 150, 122));
         panel.setBounds(0, 6, 900, 466);
         panel.setLayout(null);
-        jFrame.getContentPane().add(panel);
+
 
         // MemberId
         JLabel lMemberId = new JLabel(MEMBER_ID);
@@ -163,6 +155,17 @@ public class CheckoutBookWindow {
         });
         panel.add(btnClear);
 
+    }
+    private void init() {
+        // FRAME
+        jFrame = new JFrame();
+        jFrame.setTitle("Checkout Book");
+        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
+        jFrame.setBounds(100, 100, 800, 500);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.getContentPane().setLayout(null);
+        initJPanel();
+        jFrame.getContentPane().add(panel);
         // Button Back
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(600, 15, 117, 29);
@@ -173,5 +176,8 @@ public class CheckoutBookWindow {
 
         // show frame
         jFrame.setVisible(true);
+    }
+    public JPanel getPanel(){
+        return panel;
     }
 }

@@ -24,6 +24,7 @@ public class AddCopyWindow {
     ControllerInterface ci = new SystemController();
     DataAccess da = new DataAccessFacade();
     JFrame jFrame;
+    private JPanel panel;
     private JTextField bookIsbn;
     private Book book;
 
@@ -42,22 +43,13 @@ public class AddCopyWindow {
             }
         });
     }
-
-    private void init() {
-        // FRAME
-        jFrame = new JFrame();
-        jFrame.setTitle("Checkout Book");
-        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
-        jFrame.setBounds(100, 100, 800, 500);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.getContentPane().setLayout(null);
-
+    public void initJPanel(){
         // PANEL
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBackground(new Color(233, 150, 122));
         panel.setBounds(0, 6, 900, 466);
         panel.setLayout(null);
-        jFrame.getContentPane().add(panel);
+
 
         // BookIsbn
         JLabel lBookIsbn = new JLabel(BOOK_ISBN);
@@ -154,6 +146,19 @@ public class AddCopyWindow {
         });
         panel.add(btnClear);
 
+    }
+    private void init() {
+        // FRAME
+        jFrame = new JFrame();
+        jFrame.setTitle("Checkout Book");
+        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
+        jFrame.setBounds(100, 100, 800, 500);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.getContentPane().setLayout(null);
+
+        initJPanel();
+        jFrame.getContentPane().add(panel);
+
         // Button Back
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(600, 15, 117, 29);
@@ -164,5 +169,8 @@ public class AddCopyWindow {
 
         // show frame
         jFrame.setVisible(true);
+    }
+    public JPanel getPanel(){
+        return panel;
     }
 }

@@ -1,19 +1,20 @@
 package login_system;
 
-import windowindex.LibraryMemberConstants;
+import windowindex.LibrarianConstants;
 import windowindex.LibraryUserConstants;
 
 /*
  * Library member role 
  * */
-public class LibraryMember implements User{
+public class Librarian implements User{
 	private String userID;
 	private String password;
-	private String[] windows = {LibraryMemberConstants.DETAIL,LibraryUserConstants.BOOKS,LibraryUserConstants.MEMBERS};
+	private String[] windows = {LibrarianConstants.DETAIL,LibraryUserConstants.BOOKS,LibraryUserConstants.MEMBERS,
+			LibrarianConstants.CHECKOUT_MEMBER,LibrarianConstants.CHECKOUT_BOOK};
 	/*
 	 * To do integrate with example user
 	 * */
-	public LibraryMember(String userID,String password) {
+	public Librarian(String userID,String password) {
 		this.userID = userID;
 		this.password = password;
 	}

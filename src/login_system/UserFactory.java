@@ -1,5 +1,10 @@
 package login_system;
 
+import dataaccess.Auth;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
+
+
 import java.util.HashMap;
 
 /*
@@ -14,34 +19,34 @@ public class UserFactory {
 	 * if u need to check it u have to do it by your self 
 	 * */
 	private static User loggedInUser = new DefaultUser();
-	private static User[] userList = {
-			new LibraryMember("1001","2382"),
-			new LibraryMember("1002","2385"),
-			new Admin("1003","2386"),
-	};
-	private static HashMap<String, User> members = new HashMap<String, User>();
+	private static DataAccess dao;
 	/*
 	 * delete this when implements data access method
 	 * */
-	public static void add() {
-		for(int i=0;i<userList.length;i++) {
-			members.put(userList[i].getUserID(),userList[i]);
-		}
+	public static void init() {
+		dao = new DataAccessFacade();
+
 	}
 	public static boolean login(String userID, String password) {
 		if(isLoggedIn()) {
 			return true;
 		}
 		System.out.println(userID);
-		User u =members.get(userID);
+		dataaccess.User u =dao.readUserMap().get(userID);
 
 		System.out.println(u);
 		if(u != null) {
-			System.out.println("User Found");
-			if(u.isPasswod(password)) {
-				loggedInUser = u;
+			System.out.println(u);
+			if(u.getPassword().equals(password)) {
+				switch (u.getAuthorization()){
+					case ADMIN :
+						loggedInUser= new Admin(u.getId(),u.getPassword());
+						return true;
+					case LIBRARIAN:
+						loggedInUser=new Librarian(u.getId(),u.getPassword());
+						return true;
+				}
 				System.out.println(loggedInUser);
-				return true;
 			}
 		}
 	
