@@ -45,4 +45,8 @@ public class CheckoutRecord implements Serializable {
     public String getRecordId() {
         return recordId;
     }
+
+    public LocalDateTime getCheckoutDate() {
+        return checkoutDate;
+    }
 }

@@ -96,7 +96,7 @@ public class DataAccessFacade implements DataAccess {
 
     @Override
     public void saveNewCheckoutRecord(CheckoutRecord record) {
-        HashMap<String, CheckoutRecord> records = readRecordMap();
+        HashMap<String, CheckoutRecord> records = readRecordsMap();
         if (records == null)
             records = new HashMap<>();
 
@@ -105,10 +105,24 @@ public class DataAccessFacade implements DataAccess {
         saveToStorage(StorageType.RECORDS, records);
     }
 
-    private HashMap<String, CheckoutRecord> readRecordMap() {
+    @SuppressWarnings("unchecked")
+    public HashMap<String, CheckoutRecord> readRecordsMap() {
         //Returns a Map with name/value pairs being
-        //   isbn -> Book
-        return (HashMap<String, CheckoutRecord>) readFromStorage(StorageType.RECORDS);
+        HashMap<String, CheckoutRecord> map = (HashMap<String, CheckoutRecord>) readFromStorage(StorageType.RECORDS);
+        if (map == null)
+            map = new HashMap<>();
+        return map;
+    }
+
+    @Override
+    public void saveAndUpdateBook(Book book) {
+        HashMap<String, Book> books = readBooksMap();
+        if (books == null)
+            books = new HashMap<>();
+
+        String bookIsbn = book.getIsbn();
+        books.put(bookIsbn, book);
+        saveToStorage(StorageType.BOOKS, books);
     }
 
     @SuppressWarnings("unchecked")
