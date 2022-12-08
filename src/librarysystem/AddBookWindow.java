@@ -50,6 +50,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 
 	private final Pattern zipPattern = Pattern.compile("\\d{5}");
 	private static final Pattern telephonePattern = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
+	private static final Pattern isbnPattern = Pattern.compile("\\d{2}-\\d{5}");
 
 	@Override
 	public void init() {
@@ -272,6 +273,10 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				JOptionPane.showMessageDialog(mainPanel, "Please fill ISBN of the book");
 				return;
 			}
+			if (!isbnPattern.matcher(isbnText.getText()).matches()) {
+				JOptionPane.showMessageDialog(mainPanel, "ISBN is not valid. Please set XX-XXXXX number!");
+				return;
+			}
 			if (bookList.contains(isbnText.getText())) {
 				JOptionPane.showMessageDialog(mainPanel, "There is a book with this ISBN. ISBN must be unique");
 				return;
@@ -294,6 +299,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				book.addCopy();
 			}
 			ci.addBook(book);
+			JOptionPane.showMessageDialog(mainPanel, "Book added successfuly");
 			for (JTextField tf : bookTextFields) {
 				tf.setText("");
 			}
