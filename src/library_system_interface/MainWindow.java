@@ -73,6 +73,7 @@ public class MainWindow extends JFrame {
         panel.setBackground(new Color(255, 255, 255));
         panel.setBounds(176, 11, 650, 740);
         getContentPane().add(panel);
+        WindowComponents.changeJPanel(UserFactory.getUser().getWindows()[0]);
 
     }
 }
