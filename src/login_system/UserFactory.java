@@ -45,6 +45,9 @@ public class UserFactory {
 					case LIBRARIAN:
 						loggedInUser=new Librarian(u.getId(),u.getPassword());
 						return true;
+					case BOTH:
+						loggedInUser= new SuperUser(u.getId(),u.getPassword());
+						return  true;
 				}
 				System.out.println(loggedInUser);
 			}

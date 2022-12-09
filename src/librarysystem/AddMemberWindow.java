@@ -182,7 +182,7 @@ public class AddMemberWindow {
 
         // TABLE
         table = new JTable();
-
+        table.setColumnSelectionAllowed(true);
         // Row Click -> Text Field render
         table.addMouseListener(new MouseAdapter() {
             @Override

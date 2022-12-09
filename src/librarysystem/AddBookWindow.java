@@ -203,7 +203,9 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		saveBookButton.addActionListener(new SaveBookListener());
 		middlePanel.add(saveBookButton);
 	}
-
+	public JPanel getPanel(){
+		return middlePanel;
+	}
 	public void defineLowerPanel() {
 
 		JButton backToMainButn = new JButton("Back");
@@ -322,4 +324,5 @@ public class AddBookWindow extends JFrame implements LibWindow {
 			maxLengthRadio21.setSelected(true);
 		}
 	}
+
 }
