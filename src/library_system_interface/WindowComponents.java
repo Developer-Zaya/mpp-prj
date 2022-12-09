@@ -100,7 +100,8 @@ public class WindowComponents {
                 clearPanel();
                 AddBookWindow.INSTANCE.init();
                 panel.add(windowName, AddBookWindow.INSTANCE.getPanel());
-                panel.setSize(AddBookWindow.INSTANCE.getPanel().getSize());
+                panel.setSize(350,600);
+
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
             /*
