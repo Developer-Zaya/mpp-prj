@@ -64,7 +64,7 @@ public class MemberCheckoutRecordWindow {
 
         // Button: Checkout
         JButton btnCheckoutRecord = new JButton("Checkout Record");
-        btnCheckoutRecord.setBounds(300, 15, 117, 29);
+        btnCheckoutRecord.setBounds(300, 15, 150, 29);
         btnCheckoutRecord.addActionListener(e -> {
             // Validation: Null values
             if (memberId.getText().isEmpty())
@@ -74,7 +74,7 @@ public class MemberCheckoutRecordWindow {
                 JOptionPane.showMessageDialog(null, "Member ID does not exist!");
             else {
                 LibraryMember member = ci.getMember(memberId.getText());
-                System.out.println(member);
+//                System.out.println(member);
 
                 // Create: CheckoutRecord
                 List<CheckoutRecord> uRecords = da.readUserRecords(member);
@@ -89,10 +89,47 @@ public class MemberCheckoutRecordWindow {
                             }
                     );
                 }
-                memberId.setText("");
             }
         });
         panel.add(btnCheckoutRecord);
+
+        // Button: Print
+        JButton btnPrint = new JButton("Print");
+        btnPrint.setBounds(300, 45, 150, 29);
+        btnPrint.addActionListener(e -> {
+            // Validation: Null values
+            if (memberId.getText().isEmpty())
+                JOptionPane.showMessageDialog(null, "Please fill all the fields!");
+                // Validation: Member ID exists
+            else if (!ci.allMemberIds().contains(memberId.getText()))
+                JOptionPane.showMessageDialog(null, "Member ID does not exist!");
+            else {
+                LibraryMember member = ci.getMember(memberId.getText());
+
+                // Create: CheckoutRecord
+                List<CheckoutRecord> uRecords = da.readUserRecords(member);
+                System.out.println("==========================================================");
+                System.out.println("Member: " + member.getFirstName() + " " + member.getLastName());
+                for (int i = 0; i < uRecords.size(); i++) {
+                    CheckoutRecord record = uRecords.get(i);
+                    System.out.printf(
+                            """
+                                    --------------------------------------------
+                                    Checkout Entry %s
+                                    \tMember ID: %s, Book Copy: %s, (Book Title: %s, ISBN: %s, Copy Num: %s, Due Date: %s)%n""",
+                                    i + 1,
+                                    record.getLibraryMember().getMemberId(),
+                                    record.getBookCopy().getCopyNum(),
+                                    record.getBookCopy().getBook().getTitle(),
+                                    record.getBookCopy().getBook().getIsbn(),
+                                    record.getBookCopy().getBook().getNumCopies(),
+                                    DATE_TIME_FORMATTER.format(record.getDueDate())
+                            );
+                }
+                System.out.println("==========================================================");
+            }
+        });
+        panel.add(btnPrint);
 
         // Table
         JScrollPane jScrollPane = new JScrollPane();
