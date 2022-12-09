@@ -17,8 +17,7 @@ public class LoginPanel extends JPanel {
 	 */
 	public LoginPanel() {
 		setLayout(null);
-		setBounds(126, 11, 389, 451);
-		
+		setSize(389, 451);
 		userIDInput = new JTextField();
 		userIDInput.setToolTipText("User ID");
 		userIDInput.setBounds(155, 99, 167, 20);

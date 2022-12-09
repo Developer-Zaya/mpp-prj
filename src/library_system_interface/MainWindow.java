@@ -47,8 +47,9 @@ public class MainWindow extends JFrame {
         UserFactory.init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 900, 800);
+        setTitle("GROUP-10");
         getContentPane().setLayout(null);
-        setResizable(true);
+        setResizable(false);
         JList list = WindowComponents.getJlist();
         list.setFont(new Font("SansSerif", Font.BOLD, 17));
         list.setBounds(10, 11, 156, 740);
@@ -72,5 +73,6 @@ public class MainWindow extends JFrame {
         panel.setBackground(new Color(255, 255, 255));
         panel.setBounds(176, 11, 650, 740);
         getContentPane().add(panel);
+
     }
 }

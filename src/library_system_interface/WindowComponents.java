@@ -77,6 +77,8 @@ public class WindowComponents {
                 MemberCheckoutRecordWindow memberCheckoutRecordWindow = new MemberCheckoutRecordWindow();
                 memberCheckoutRecordWindow.initJPanel();
                 panel.add(windowName, memberCheckoutRecordWindow.getPanel());
+                panel.setSize(memberCheckoutRecordWindow.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
                 /*
                 *TODO
@@ -86,6 +88,8 @@ public class WindowComponents {
                 CheckoutBookWindow checkoutBookWindow = new CheckoutBookWindow();
                 checkoutBookWindow.initJPanel();
                 panel.add(windowName, checkoutBookWindow.getPanel());
+                panel.setSize(checkoutBookWindow.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
                 /*
                 * SUGGESTION
@@ -96,6 +100,8 @@ public class WindowComponents {
                 clearPanel();
                 AddBookWindow.INSTANCE.defineMiddlePanel();
                 panel.add(windowName, AddBookWindow.INSTANCE.getPanel());
+                panel.setSize(AddBookWindow.INSTANCE.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
                 /*
                 * WARNING USER ON CLICK EVENT MAYBE BUGGED
@@ -105,6 +111,9 @@ public class WindowComponents {
                 clearPanel();
                 AddMemberWindow.INSTANCE.initJPanel();
                 panel.add(windowName, AddMemberWindow.INSTANCE.getPanel());
+                panel.setSize(AddMemberWindow.INSTANCE.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+
                 return;
                 /*
                 * ADD BOOKS SHOW ON LIST
@@ -114,6 +123,9 @@ public class WindowComponents {
                 AddCopyWindow addCopyWindow = new AddCopyWindow();
                 addCopyWindow.initJPanel();
                 panel.add(windowName, addCopyWindow.getPanel());
+                panel.setSize(addCopyWindow.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+
                 return;
             default:
                 return;
