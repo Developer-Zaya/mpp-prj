@@ -45,7 +45,9 @@ public class MemberCheckoutRecordWindow {
             }
         });
     }
+    public void initJPanel(){
 
+    }
     private void init() {
         // FRAME
         jFrame = new JFrame();

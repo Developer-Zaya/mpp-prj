@@ -1,10 +1,6 @@
 package library_system_interface;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import login_system.UserFactory;
 
@@ -29,7 +25,7 @@ public class LoginPanel extends JPanel {
 		add(userIDInput);
 		userIDInput.setColumns(10);
 		
-		passwordInput = new JTextField();
+		passwordInput = new JPasswordField();
 		passwordInput.setToolTipText("Password");
 		passwordInput.setBounds(155, 159, 167, 20);
 		add(passwordInput);

@@ -41,21 +41,20 @@ public class MainWindow extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame..
 	 */
 	public MainWindow() {
-		UserFactory.add();
+		UserFactory.init();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 800);
 		getContentPane().setLayout(null);
-		setResizable(true	);
+		setResizable(true);
 		JList list = WindowComponents.getJlist();
-		list.setFont(new Font("SansSerif", Font.BOLD, 12));
-		list.setBounds(10, 11, 106, 451);
+		list.setFont(new Font("SansSerif", Font.BOLD, 17));
+		list.setBounds(10, 11, 156, 740);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		list.addListSelectionListener(event -> {
-			
 			String value;
 			if(list.getSelectedValue() == null) {
 				value = UserFactory.getUser().getWindows()[0];
@@ -67,10 +66,11 @@ public class MainWindow extends JFrame {
 			WindowComponents.changeJPanel(value);
 		});
 		getContentPane().add(list);
+
 //		WindowComponents.changeList();
 		JPanel panel = WindowComponents.getJPanel();
-		panel.setBackground(new Color(0,0,0));
-		panel.setBounds(126, 11, 700, 700);
+		panel.setBackground(new Color(255,255,255));
+		panel.setBounds(176, 11, 650, 740);
 		getContentPane().add(panel);
 	}
 }

@@ -21,8 +21,22 @@ import java.util.List;
 public class DataAccessFacade implements DataAccess {
 
     // For Mac Users path can use /
-    public static final String OUTPUT_DIR = System.getProperty("user.dir")
-            + "/src/dataaccess/storage";
+    public static final String OUTPUT_DIR = getDir();
+
+    private static String getDir() {
+        String dir = System.getProperty("user.dir");
+        String os = System.getProperty("os.name");;
+        switch (os){
+            case "Windows 11":
+                dir += "\\src\\dataaccess\\storage";
+                break;
+            default:
+                dir +="/src/dataaccess/storage";
+                break;
+        }
+        System.out.println(dir);
+        return dir;
+    }
     // Windows user can use
 
     /*
@@ -74,6 +88,7 @@ public class DataAccessFacade implements DataAccess {
             Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
             in = new ObjectInputStream(Files.newInputStream(path));
             retVal = in.readObject();
+            System.out.println(retVal);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

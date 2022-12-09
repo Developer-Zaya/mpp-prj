@@ -1,13 +1,13 @@
 package login_system;
 
 import windowindex.AdminContants;
-import windowindex.LibraryMemberConstants;
+import windowindex.LibrarianConstants;
 
 public class Admin implements User{
     private String userID ;
     private String password;
 
-    private String[] windows = {LibraryMemberConstants.DETAIL,AdminContants.ADD_BOOK,AdminContants.ADD_MEMBER,};
+    private String[] windows = {LibrarianConstants.DETAIL,AdminContants.ADD_BOOK,AdminContants.ADD_MEMBER,AdminContants.ADD_COPY};
     public Admin(String userID, String password){
         this.userID = userID;
         this.password = password;
