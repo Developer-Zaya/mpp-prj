@@ -1,6 +1,7 @@
 package dataaccess;
 
 import business.Book;
+import business.BookCopy;
 import business.CheckoutRecord;
 import business.LibraryMember;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -204,6 +206,17 @@ public class DataAccessFacade implements DataAccess {
         public String toString() {
             return "(" + first.toString() + ", " + second.toString() + ")";
         }
+    }
+
+    @Override
+    public CheckoutRecord readBookCopyRecords(BookCopy copy) {
+        HashMap<String, CheckoutRecord> records = readUserRecords();
+        CheckoutRecord result = null;
+        for (CheckoutRecord record : records.values()) {
+            if (record.getBookCopy().equals(copy) && record.getDueDate().isBefore(LocalDateTime.now()))
+                result = record;
+        }
+        return result;
     }
 
 }

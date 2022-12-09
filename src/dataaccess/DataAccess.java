@@ -1,6 +1,7 @@
 package dataaccess;
 
 import business.Book;
+import business.BookCopy;
 import business.CheckoutRecord;
 import business.LibraryMember;
 
@@ -25,4 +26,6 @@ public interface DataAccess {
     void saveAndUpdateBook(Book book);
 
     List<CheckoutRecord> readUserRecords(LibraryMember member);
+
+    public CheckoutRecord readBookCopyRecords(BookCopy copy);
 }

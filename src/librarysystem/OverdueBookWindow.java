@@ -8,9 +8,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OverdueBookWindow {
     private static final String BOOK_ISBN = "Book ISBN Number";
@@ -26,7 +25,6 @@ public class OverdueBookWindow {
     JFrame jFrame;
     private JTextField bookIsbn;
     private Book book;
-    private HashMap<String, CheckoutRecord> records;
 
     private OverdueBookWindow() {
         recordModel = new DefaultTableModel();
@@ -63,11 +61,11 @@ public class OverdueBookWindow {
 
         // BookIsbn
         JLabel lBookIsbn = new JLabel(BOOK_ISBN);
-        lBookIsbn.setBounds(6, 40, 150, 20);
+        lBookIsbn.setBounds(6, 20, 150, 20);
         panel.add(lBookIsbn);
 
         bookIsbn = new JTextField();
-        bookIsbn.setBounds(130, 40, 150, 20);
+        bookIsbn.setBounds(130, 20, 150, 20);
         panel.add(bookIsbn);
 
         // Button: Search
@@ -85,6 +83,17 @@ public class OverdueBookWindow {
                 book = ci.getBook(bookIsbn.getText());
                 System.out.println(book);
 
+                BookCopy[] copies = book.getCopies();
+                recordModel.setRowCount(0);
+                for (BookCopy copy : copies) {
+                    if (!copy.isAvailable()) {
+                        CheckoutRecord record = da.readBookCopyRecords(copy);
+                        String[] row = { book.getIsbn(), book.getTitle(), String.valueOf(copy.getCopyNum()),
+                                record.getLibraryMember().getMemberId(),
+                                DATE_TIME_FORMATTER.format(record.getDueDate()) };
+                        recordModel.addRow(row);
+                    }
+                }
                 bookIsbn.setText("");
             }
         });
@@ -98,19 +107,6 @@ public class OverdueBookWindow {
         JTable jTable = new JTable();
         jTable.setBackground(new Color(255, 240, 245));
         jTable.setModel(recordModel);
-        // Get the keys from the map and create a TreeSet for sorting
-        // Set<String> keys = new TreeSet<>(records.keySet());
-        // for (String k : keys) {
-        // CheckoutRecord v = records.get(k);
-        // String[] row = {
-        // v.getLibraryMember().getMemberId(),
-        // v.getBookCopy().getBook().getIsbn(),
-        // String.valueOf(v.getBookCopy().getCopyNum()),
-        // DATE_TIME_FORMATTER.format(v.getCheckoutDate()),
-        // DATE_TIME_FORMATTER.format(v.getDueDate()),
-        // };
-        // recordModel.addRow(row);
-        // }
         jScrollPane.setViewportView(jTable);
 
         // Button Clear
@@ -118,6 +114,7 @@ public class OverdueBookWindow {
         btnClear.setBounds(450, 15, 117, 29);
         btnClear.addActionListener(e -> {
             bookIsbn.setText("");
+            addnewBook();
         });
         panel.add(btnClear);
 
@@ -131,5 +128,14 @@ public class OverdueBookWindow {
 
         // show frame
         jFrame.setVisible(true);
+    }
+
+    public void addnewBook() {
+        Address address = new Address("C", "ff", "ia", "52556");
+        Author auth = new Author("bodi", "bat", "233-233-2333", address, "bio");
+        List<Author> auths = new ArrayList<>();
+        auths.add(auth);
+        Book addingbook = new Book("00-00001", "Test Book 2", 0, auths);
+        ci.addBook(addingbook);
     }
 }

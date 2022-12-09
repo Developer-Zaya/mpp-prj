@@ -1,6 +1,7 @@
 package librarysystem;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
-import javax.swing.plaf.ColorUIResource;
 
 import business.Address;
 import business.Author;
@@ -56,6 +56,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	public void init() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
+		// mainPanel.setBounds(100, 100, 800, 500);
 		defineTopPanel();
 		defineMiddlePanel();
 		defineLowerPanel();
@@ -77,9 +78,13 @@ public class AddBookWindow extends JFrame implements LibWindow {
 
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel();
-		GridLayout gl = new GridLayout(15, 3, 5, 10);
+		middlePanel.setBackground(new Color(233, 150, 122));
+		GridLayout gl = new GridLayout(20, 3, 5, 10);
 		middlePanel.setLayout(gl);
 
+		middlePanel.add(new JLabel());
+		middlePanel.add(new JLabel("BOOK:"));
+		middlePanel.add(new JLabel());
 		// ISBN
 		JLabel isbnlabel = new JLabel("ISBN");
 		middlePanel.add(isbnlabel);
@@ -98,18 +103,6 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		middlePanel.add(titleText);
 		middlePanel.add(new JLabel());
 
-		// MaxCheckoutLength
-		JLabel maxLengthlabel = new JLabel("Max Checkout Length");
-		middlePanel.add(maxLengthlabel);
-		ButtonGroup buttonGroup = new ButtonGroup();
-		maxLengthRadio21 = new JRadioButtonMenuItem("21 days");
-		maxLengthRadio21.setSelected(true);
-		buttonGroup.add(maxLengthRadio21);
-		maxLengthRadio7 = new JRadioButtonMenuItem("7 days");
-		buttonGroup.add(maxLengthRadio7);
-		middlePanel.add(maxLengthRadio21);
-		middlePanel.add(maxLengthRadio7);
-
 		// NumberOfCopies
 		JLabel numOfCopiesLabel = new JLabel("Number of Copies");
 		middlePanel.add(numOfCopiesLabel);
@@ -118,6 +111,22 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		bookTextFields.add(numberOfCopyText);
 		middlePanel.add(new JLabel());
 
+		// MaxCheckoutLength
+		JLabel maxLengthlabel = new JLabel("Max Checkout Length");
+		middlePanel.add(maxLengthlabel);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		maxLengthRadio21 = new JRadioButtonMenuItem("21 days");
+		maxLengthRadio21.setSelected(true);
+		// maxLengthRadio21.setFont(maxLengthlabel.getFont());
+		buttonGroup.add(maxLengthRadio21);
+		maxLengthRadio7 = new JRadioButtonMenuItem("7 days");
+		buttonGroup.add(maxLengthRadio7);
+		middlePanel.add(maxLengthRadio21);
+		middlePanel.add(maxLengthRadio7);
+
+		middlePanel.add(new JLabel());
+		middlePanel.add(new JLabel("AUTHORS:"));
+		middlePanel.add(new JLabel());
 		// Authors
 		JLabel firstnameLabel = new JLabel("Author Firstname");
 		middlePanel.add(firstnameLabel);
@@ -191,15 +200,13 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		middlePanel.add(new JLabel());
 
 		JButton saveBookButton = new JButton("Save Book");
-		ColorUIResource saveButtonColor = new ColorUIResource(0, 0, 0);
-		saveBookButton.setBackground(saveButtonColor);
 		saveBookButton.addActionListener(new SaveBookListener());
 		middlePanel.add(saveBookButton);
 	}
 
 	public void defineLowerPanel() {
 
-		JButton backToMainButn = new JButton("<= Back to Main");
+		JButton backToMainButn = new JButton("Back");
 		backToMainButn.addActionListener(new BackToMainListener());
 		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -236,17 +243,22 @@ public class AddBookWindow extends JFrame implements LibWindow {
 					zipText.getText() };
 			for (String t : authorTexts) {
 				if (t.equals("")) {
-					JOptionPane.showMessageDialog(mainPanel, "Please fill all Author informations");
+					JOptionPane.showMessageDialog(mainPanel, "Please fill all Author informations", "fill the blanks",
+							JOptionPane.WARNING_MESSAGE);
 					return;
 				}
 			}
 			if (!zipPattern.matcher(zipText.getText()).matches()) {
-				JOptionPane.showMessageDialog(mainPanel, "Zip code is not valid. Please set 5 digit number!");
+				JOptionPane.showMessageDialog(mainPanel, "Zip code is not valid. Please set 5 digit number!",
+						"Validation Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			if (!telephonePattern.matcher(telephoneText.getText()).matches()) {
 				JOptionPane.showMessageDialog(mainPanel,
-						"Telephone is not valid. Please set 10 digit numbers, including hyphens '-'");
+						"Telephone is not valid. Please set 10 digit numbers, including hyphens '-'",
+						"Validation Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			Address address = new Address(streetText.getText(), cityText.getText(),
@@ -260,6 +272,8 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				tf.setText("");
 			}
 			savedAuthorLabel.setText("Book Author(s): " + savedAuthors.size());
+			JOptionPane.showMessageDialog(mainPanel,
+					"Author added!");
 		}
 	}
 
@@ -287,7 +301,9 @@ public class AddBookWindow extends JFrame implements LibWindow {
 			}
 			// author
 			if (savedAuthors.size() < 1) {
-				JOptionPane.showMessageDialog(mainPanel, "There is no added author. Please add an Author");
+				JOptionPane.showMessageDialog(mainPanel, "There is no added author. Please add an Author",
+						"No author saved",
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 
