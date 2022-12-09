@@ -48,6 +48,8 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	private List<Author> savedAuthors = new ArrayList<>();
 	private JLabel savedAuthorLabel;
 
+	JButton addAuthorButton, saveBookButton, clearButton;
+
 	private final Pattern zipPattern = Pattern.compile("\\d{5}");
 	private static final Pattern telephonePattern = Pattern.compile("\\d{3}-\\d{3}-\\d{4}");
 	private static final Pattern isbnPattern = Pattern.compile("\\d{2}-\\d{5}");
@@ -79,7 +81,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	public void defineMiddlePanel() {
 		middlePanel = new JPanel();
 		middlePanel.setBackground(new Color(233, 150, 122));
-		GridLayout gl = new GridLayout(20, 3, 5, 10);
+		GridLayout gl = new GridLayout(20, 3, 5, 0);
 		middlePanel.setLayout(gl);
 
 		middlePanel.add(new JLabel());
@@ -125,7 +127,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		middlePanel.add(maxLengthRadio7);
 
 		middlePanel.add(new JLabel());
-		middlePanel.add(new JLabel("AUTHORS:"));
+		middlePanel.add(new JLabel("AUTHOR:"));
 		middlePanel.add(new JLabel());
 		// Authors
 		JLabel firstnameLabel = new JLabel("Author Firstname");
@@ -194,14 +196,19 @@ public class AddBookWindow extends JFrame implements LibWindow {
 
 		savedAuthorLabel = new JLabel("Book Author(s): " + savedAuthors.size());
 		middlePanel.add(savedAuthorLabel);
-		JButton addAuthorButton = new JButton("Add Author");
+		addAuthorButton = new JButton("New Author");
 		addAuthorButton.addActionListener(new AddAuthorListener());
+		// addAuthorButton.setVisible(false);
 		middlePanel.add(addAuthorButton);
 		middlePanel.add(new JLabel());
 
-		JButton saveBookButton = new JButton("Save Book");
+		saveBookButton = new JButton("Save Book");
 		saveBookButton.addActionListener(new SaveBookListener());
 		middlePanel.add(saveBookButton);
+
+		clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ClearListener());
+		middlePanel.add(clearButton);
 	}
 
 	public void defineLowerPanel() {
@@ -238,42 +245,13 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	class AddAuthorListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			String[] authorTexts = { firstnameText.getText(), lastnameText.getText(), bioText.getText(),
-					telephoneText.getText(), streetText.getText(), stateText.getText(), cityText.getText(),
-					zipText.getText() };
-			for (String t : authorTexts) {
-				if (t.equals("")) {
-					JOptionPane.showMessageDialog(mainPanel, "Please fill all Author informations", "fill the blanks",
-							JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-			}
-			if (!zipPattern.matcher(zipText.getText()).matches()) {
-				JOptionPane.showMessageDialog(mainPanel, "Zip code is not valid. Please set 5 digit number!",
-						"Validation Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			if (!telephonePattern.matcher(telephoneText.getText()).matches()) {
-				JOptionPane.showMessageDialog(mainPanel,
-						"Telephone is not valid. Please set 10 digit numbers, including hyphens '-'",
-						"Validation Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			Address address = new Address(streetText.getText(), cityText.getText(),
-					stateText.getText(),
-					zipText.getText());
-			Author author = new Author(firstnameText.getText(), lastnameText.getText(),
-					telephoneText.getText(),
-					address, bioText.getText());
-			savedAuthors.add(author);
+			saveAuthor();
 			for (JTextField tf : authorTextFields) {
 				tf.setText("");
 			}
 			savedAuthorLabel.setText("Book Author(s): " + savedAuthors.size());
 			JOptionPane.showMessageDialog(mainPanel,
-					"Author added!");
+					"Please fill Author fields again for an additional author and save book!");
 		}
 	}
 
@@ -281,8 +259,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 
-			// ISBN uniqueness
-			List<String> bookList = ci.allBookIds();
+			// ISBN
 			if (isbnText.getText().equals("")) {
 				JOptionPane.showMessageDialog(mainPanel, "Please fill ISBN of the book");
 				return;
@@ -291,7 +268,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				JOptionPane.showMessageDialog(mainPanel, "ISBN is not valid. Please set XX-XXXXX number!");
 				return;
 			}
-			if (bookList.contains(isbnText.getText())) {
+			if (checkBookUniqueness(isbnText.getText())) {
 				JOptionPane.showMessageDialog(mainPanel, "There is a book with this ISBN. ISBN must be unique");
 				return;
 			}
@@ -299,19 +276,19 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				JOptionPane.showMessageDialog(mainPanel, "Please fill Title of the book");
 				return;
 			}
-			// author
-			if (savedAuthors.size() < 1) {
-				JOptionPane.showMessageDialog(mainPanel, "There is no added author. Please add an Author",
-						"No author saved",
-						JOptionPane.WARNING_MESSAGE);
+			if (Integer.parseInt(numberOfCopyText.getText()) < 1) {
+				JOptionPane.showMessageDialog(mainPanel, "Number of Copies must be greater than 0");
 				return;
 			}
+			// author
+			if (savedAuthors.size() == 0)
+				saveAuthor();
 
 			int selectedMaxCheckoutLength = maxLengthRadio21.isSelected() ? 21 : 7;
 			Book book = new Book(isbnText.getText(), titleText.getText(),
 					selectedMaxCheckoutLength, savedAuthors);
 			int num = Integer.parseInt(numberOfCopyText.getText());
-			for (int i = 0; i < num; i++) {
+			for (int i = 0; i < num - 1; i++) {
 				book.addCopy();
 			}
 			ci.addBook(book);
@@ -321,5 +298,57 @@ public class AddBookWindow extends JFrame implements LibWindow {
 			}
 			maxLengthRadio21.setSelected(true);
 		}
+	}
+
+	class ClearListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			for (JTextField tf : bookTextFields) {
+				tf.setText("");
+			}
+			for (JTextField tf : authorTextFields) {
+				tf.setText("");
+			}
+			savedAuthors.clear();
+			savedAuthorLabel.setText("Book Author(s): " + savedAuthors.size());
+		}
+	}
+
+	void saveAuthor() {
+		String[] authorTexts = { firstnameText.getText(), lastnameText.getText(), bioText.getText(),
+				telephoneText.getText(), streetText.getText(), stateText.getText(), cityText.getText(),
+				zipText.getText() };
+		for (String t : authorTexts) {
+			if (t.equals("")) {
+				JOptionPane.showMessageDialog(mainPanel, "Please fill all Author informations", "fill the blanks",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+		}
+		if (!zipPattern.matcher(zipText.getText()).matches()) {
+			JOptionPane.showMessageDialog(mainPanel, "Zip code is not valid. Please set 5 digit number!",
+					"Validation Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if (!telephonePattern.matcher(telephoneText.getText()).matches()) {
+			JOptionPane.showMessageDialog(mainPanel,
+					"Telephone is not valid. Please set 10 digit numbers, including hyphens '-'",
+					"Validation Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		Address address = new Address(streetText.getText(), cityText.getText(),
+				stateText.getText(),
+				zipText.getText());
+		Author author = new Author(firstnameText.getText(), lastnameText.getText(),
+				telephoneText.getText(),
+				address, bioText.getText());
+		savedAuthors.add(author);
+	}
+
+	boolean checkBookUniqueness(String isbn) {
+		List<String> bookList = ci.allBookIds();
+		return bookList.contains(isbn);
 	}
 }
