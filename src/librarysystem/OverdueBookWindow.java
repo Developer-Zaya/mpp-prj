@@ -107,6 +107,7 @@ public class OverdueBookWindow {
         JTable jTable = new JTable();
         jTable.setBackground(new Color(255, 240, 245));
         jTable.setModel(recordModel);
+        jTable.setEnabled(false);
         jScrollPane.setViewportView(jTable);
 
         // Button Clear
