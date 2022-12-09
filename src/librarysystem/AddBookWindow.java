@@ -32,7 +32,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	public static final AddBookWindow INSTANCE = new AddBookWindow();
 	ControllerInterface ci = new SystemController();
 
-	private AddBookWindow() {
+	private  AddBookWindow() {
 	}
 
 	private JPanel mainPanel;

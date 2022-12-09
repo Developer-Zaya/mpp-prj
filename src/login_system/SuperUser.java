@@ -8,7 +8,7 @@ public class SuperUser implements User {
     private String userID ;
     private String password;
 
-    private String[] windows = {LibrarianConstants.DETAIL, AdminContants.ADD_BOOK,AdminContants.ADD_MEMBER,AdminContants.ADD_COPY, LibraryUserConstants.MEMBERS,
+    private String[] windows = {LibrarianConstants.DETAIL, AdminContants.ADD_BOOK,AdminContants.ADD_MEMBER,AdminContants.ADD_COPY,/* LibraryUserConstants.MEMBERS, */
             LibrarianConstants.CHECKOUT_MEMBER,LibrarianConstants.CHECKOUT_BOOK};
     public SuperUser(String userID, String password){
         this.userID = userID;
