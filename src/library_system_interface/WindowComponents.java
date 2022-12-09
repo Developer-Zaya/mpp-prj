@@ -5,10 +5,7 @@ import java.awt.CardLayout;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import librarysystem.AddCopyWindow;
-import librarysystem.AddMemberWindow;
-import librarysystem.CheckoutBookWindow;
-import librarysystem.MemberCheckoutRecordWindow;
+import librarysystem.*;
 import login_system.UserFactory;
 import windowindex.LibraryUserConstants;
 import windowindex.LibrarianConstants;
@@ -26,7 +23,9 @@ public class WindowComponents {
     public static JPanel getJPanel() {
         return panel;
     }
-
+    /*
+    * update list
+    * */
     public static void changeList() {
         list.setListData(UserFactory.getUser().getWindows());
         changeJPanel(UserFactory.getUser().getWindows()[0]);
@@ -38,38 +37,78 @@ public class WindowComponents {
             windowName = UserFactory.getUser().getWindows()[0];
         }
         switch (windowName) {
+            /*
+             * TODO
+             *  ADD THIS WINDOW
+             * */
+            case LibraryUserConstants.BOOKS:
+                clearPanel();
+                panel.add(windowName, new BooksPanel());
+                return;
+            /*
+             * TODO
+             *  CHANGE THE STYLE
+             * */
+            case LibraryUserConstants.LOGIN:
+                clearPanel();
+                LoginPanel loginPanel = new LoginPanel();
+                panel.add(windowName, loginPanel);
+                return;
+            /*
+             * TODO
+             * ADD THIS PAGE
+             * */
+            case LibraryUserConstants.MEMBERS:
+                clearPanel();
+                panel.add(windowName, new MemberPanel());
+                return;
+            /*
+            * TODO
+            * */
             case LibrarianConstants.DETAIL:
                 clearPanel();
                 panel.add(windowName, new DetailPanel());
                 return;
+                /*
+                * TODO
+                * */
             case LibrarianConstants.CHECKOUT_MEMBER:
                 clearPanel();
-                //MemberCheckoutRecordWindow window = new MemberCheckoutRecordWindow();
-                //panel.add(windowName, MemberCheckoutRecordWindow.INSTANCE.getJPanel());
+                MemberCheckoutRecordWindow memberCheckoutRecordWindow = new MemberCheckoutRecordWindow();
+                memberCheckoutRecordWindow.initJPanel();
+                panel.add(windowName, memberCheckoutRecordWindow.getPanel());
                 return;
+                /*
+                *TODO
+                * */
             case LibrarianConstants.CHECKOUT_BOOK:
                 clearPanel();
                 CheckoutBookWindow checkoutBookWindow = new CheckoutBookWindow();
                 checkoutBookWindow.initJPanel();
                 panel.add(windowName, checkoutBookWindow.getPanel());
                 return;
-            case LibraryUserConstants.BOOKS:
+                /*
+                * SUGGESTION
+                * Maybe add author from slider ?
+                * time stamp 11:00
+                * */
+            case AdminContants.ADD_BOOK:
                 clearPanel();
-                panel.add(windowName, new BooksPanel());
+                AddBookWindow.INSTANCE.defineMiddlePanel();
+                panel.add(windowName, AddBookWindow.INSTANCE.getPanel());
                 return;
-            case LibraryUserConstants.LOGIN:
-                clearPanel();
-                panel.add(windowName, new LoginPanel());
-                return;
-            case LibraryUserConstants.MEMBERS:
-                clearPanel();
-                panel.add(windowName, new MemberPanel());
-                return;
+                /*
+                * WARNING USER ON CLICK EVENT MAYBE BUGGED
+                * but this is working fine for req
+                * */
             case AdminContants.ADD_MEMBER:
                 clearPanel();
                 AddMemberWindow.INSTANCE.initJPanel();
                 panel.add(windowName, AddMemberWindow.INSTANCE.getPanel());
                 return;
+                /*
+                * ADD BOOKS SHOW ON LIST
+                * */
             case AdminContants.ADD_COPY:
                 clearPanel();
                 AddCopyWindow addCopyWindow = new AddCopyWindow();
@@ -80,7 +119,9 @@ public class WindowComponents {
                 return;
         }
     }
-
+    /*
+    * TO REFRESH THE PAGE
+    * */
     private static void clearPanel() {
         panel.removeAll();
         panel.revalidate();

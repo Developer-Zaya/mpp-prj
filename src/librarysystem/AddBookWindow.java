@@ -211,6 +211,10 @@ public class AddBookWindow extends JFrame implements LibWindow {
 		middlePanel.add(clearButton);
 	}
 
+	public JPanel getPanel() {
+		return middlePanel;
+	}
+
 	public void defineLowerPanel() {
 
 		JButton backToMainButn = new JButton("Back");
@@ -294,6 +298,9 @@ public class AddBookWindow extends JFrame implements LibWindow {
 			ci.addBook(book);
 			JOptionPane.showMessageDialog(mainPanel, "Book added successfuly");
 			for (JTextField tf : bookTextFields) {
+				tf.setText("");
+			}
+			for (JTextField tf : authorTextFields) {
 				tf.setText("");
 			}
 			maxLengthRadio21.setSelected(true);
