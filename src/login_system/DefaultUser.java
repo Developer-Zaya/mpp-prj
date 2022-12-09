@@ -3,7 +3,7 @@ package login_system;
 import windowindex.LibraryUserConstants;
 
 public class DefaultUser implements User{
-	private String[] windows = {LibraryUserConstants.LOGIN,LibraryUserConstants.BOOKS,LibraryUserConstants.MEMBERS};
+	private String[] windows = {LibraryUserConstants.LOGIN,/* LibraryUserConstants.BOOKS,LibraryUserConstants.MEMBERS */};
 	public DefaultUser() {
 	}
 	@Override
