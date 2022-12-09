@@ -184,20 +184,20 @@ public class AddMemberWindow {
         table = new JTable();
         table.setColumnSelectionAllowed(true);
         // Row Click -> Text Field render
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int r = table.getSelectedRow();
-//                memberId.setText(model.getValueAt(r, 0).toString());
-                firstName.setText(model.getValueAt(r, 1).toString());
-                lastName.setText(model.getValueAt(r, 2).toString());
-                telephone.setText(model.getValueAt(r, 3).toString());
-                street.setText(model.getValueAt(r, 4).toString());
-                city.setText(model.getValueAt(r, 5).toString());
-                state.setText(model.getValueAt(r, 6).toString());
-                zip.setText(model.getValueAt(r, 7).toString());
-            }
-        });
+//        table.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                int r = table.getSelectedRow();
+////                memberId.setText(model.getValueAt(r, 0).toString());
+//                firstName.setText(model.getValueAt(r, 1).toString());
+//                lastName.setText(model.getValueAt(r, 2).toString());
+//                telephone.setText(model.getValueAt(r, 3).toString());
+//                street.setText(model.getValueAt(r, 4).toString());
+//                city.setText(model.getValueAt(r, 5).toString());
+//                state.setText(model.getValueAt(r, 6).toString());
+//                zip.setText(model.getValueAt(r, 7).toString());
+//            }
+//        });
 
         table.setBackground(new Color(255, 240, 245));
         model = new DefaultTableModel();
