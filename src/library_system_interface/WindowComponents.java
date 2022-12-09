@@ -11,7 +11,6 @@ import windowindex.LibraryUserConstants;
 import windowindex.LibrarianConstants;
 import windowindex.AdminContants;
 
-
 public class WindowComponents {
     private static JList<String> list = new JList<String>(UserFactory.getUser().getWindows());
     private static JPanel panel = new JPanel(new CardLayout());
@@ -23,9 +22,10 @@ public class WindowComponents {
     public static JPanel getJPanel() {
         return panel;
     }
+
     /*
-    * update list
-    * */
+     * update list
+     */
     public static void changeList() {
         list.setListData(UserFactory.getUser().getWindows());
         changeJPanel(UserFactory.getUser().getWindows()[0]);
@@ -39,16 +39,16 @@ public class WindowComponents {
         switch (windowName) {
             /*
              * TODO
-             *  ADD THIS WINDOW
-             * */
+             * ADD THIS WINDOW
+             */
             case LibraryUserConstants.BOOKS:
                 clearPanel();
                 panel.add(windowName, new BooksPanel());
                 return;
             /*
              * TODO
-             *  CHANGE THE STYLE
-             * */
+             * CHANGE THE STYLE
+             */
             case LibraryUserConstants.LOGIN:
                 clearPanel();
                 LoginPanel loginPanel = new LoginPanel();
@@ -57,21 +57,21 @@ public class WindowComponents {
             /*
              * TODO
              * ADD THIS PAGE
-             * */
+             */
             case LibraryUserConstants.MEMBERS:
                 clearPanel();
                 panel.add(windowName, new MemberPanel());
                 return;
             /*
-            * TODO
-            * */
+             * TODO
+             */
             case LibrarianConstants.DETAIL:
                 clearPanel();
                 panel.add(windowName, new DetailPanel());
                 return;
-                /*
-                * TODO
-                * */
+            /*
+             * TODO
+             */
             case LibrarianConstants.CHECKOUT_MEMBER:
                 clearPanel();
                 MemberCheckoutRecordWindow memberCheckoutRecordWindow = new MemberCheckoutRecordWindow();
@@ -80,9 +80,9 @@ public class WindowComponents {
                 panel.setSize(memberCheckoutRecordWindow.getPanel().getSize());
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
-                /*
-                *TODO
-                * */
+            /*
+             * TODO
+             */
             case LibrarianConstants.CHECKOUT_BOOK:
                 clearPanel();
                 CheckoutBookWindow checkoutBookWindow = new CheckoutBookWindow();
@@ -91,22 +91,22 @@ public class WindowComponents {
                 panel.setSize(checkoutBookWindow.getPanel().getSize());
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
-                /*
-                * SUGGESTION
-                * Maybe add author from slider ?
-                * time stamp 11:00
-                * */
+            /*
+             * SUGGESTION
+             * Maybe add author from slider ?
+             * time stamp 11:00
+             */
             case AdminContants.ADD_BOOK:
                 clearPanel();
-                AddBookWindow.INSTANCE.defineMiddlePanel();
+                AddBookWindow.INSTANCE.init();
                 panel.add(windowName, AddBookWindow.INSTANCE.getPanel());
                 panel.setSize(AddBookWindow.INSTANCE.getPanel().getSize());
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
                 return;
-                /*
-                * WARNING USER ON CLICK EVENT MAYBE BUGGED
-                * but this is working fine for req
-                * */
+            /*
+             * WARNING USER ON CLICK EVENT MAYBE BUGGED
+             * but this is working fine for req
+             */
             case AdminContants.ADD_MEMBER:
                 clearPanel();
                 AddMemberWindow.INSTANCE.initJPanel();
@@ -115,9 +115,9 @@ public class WindowComponents {
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
 
                 return;
-                /*
-                * ADD BOOKS SHOW ON LIST
-                * */
+            /*
+             * ADD BOOKS SHOW ON LIST
+             */
             case AdminContants.ADD_COPY:
                 clearPanel();
                 AddCopyWindow addCopyWindow = new AddCopyWindow();
@@ -131,9 +131,10 @@ public class WindowComponents {
                 return;
         }
     }
+
     /*
-    * TO REFRESH THE PAGE
-    * */
+     * TO REFRESH THE PAGE
+     */
     private static void clearPanel() {
         panel.removeAll();
         panel.revalidate();
