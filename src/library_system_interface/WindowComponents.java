@@ -128,6 +128,14 @@ public class WindowComponents {
                 panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
 
                 return;
+            case LibrarianConstants.OVER_DUE_BOOK:
+                clearPanel();
+                OverdueBookWindow overdueBookWindow = new OverdueBookWindow();
+                overdueBookWindow.initJPanel();
+                panel.add(windowName, overdueBookWindow.getPanel());
+                panel.setSize(overdueBookWindow.getPanel().getSize());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                return;
             default:
                 return;
         }

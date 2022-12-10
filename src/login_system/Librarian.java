@@ -10,7 +10,7 @@ public class Librarian implements User{
 	private String userID;
 	private String password;
 	private String[] windows = {LibrarianConstants.DETAIL /* LibraryUserConstants.BOOKS,LibraryUserConstants.MEMBERS */,
-			LibrarianConstants.CHECKOUT_MEMBER,LibrarianConstants.CHECKOUT_BOOK};
+			LibrarianConstants.CHECKOUT_MEMBER,LibrarianConstants.CHECKOUT_BOOK ,LibrarianConstants.OVER_DUE_BOOK};
 	/*
 	 * To do integrate with example user
 	 * */

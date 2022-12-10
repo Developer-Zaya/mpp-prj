@@ -20,13 +20,14 @@ public class OverdueBookWindow {
     private static final String[] RECORD_COLUMN = { BOOK_ISBN, BOOK_TITLE, COPY_NUM, MEMBER_ID, DUE_DATE };
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private final DefaultTableModel recordModel;
+    private JPanel panel;
     ControllerInterface ci = new SystemController();
     DataAccess da = new DataAccessFacade();
     JFrame jFrame;
     private JTextField bookIsbn;
     private Book book;
 
-    private OverdueBookWindow() {
+    public OverdueBookWindow() {
         recordModel = new DefaultTableModel();
         recordModel.setColumnIdentifiers(RECORD_COLUMN);
         // records = da.readRecordsMap();
@@ -42,22 +43,11 @@ public class OverdueBookWindow {
             }
         });
     }
-
-    private void init() {
-        // FRAME
-        jFrame = new JFrame();
-        jFrame.setTitle("Overdue Book");
-        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
-        jFrame.setBounds(100, 100, 800, 500);
-        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.getContentPane().setLayout(null);
-
-        // PANEL
-        JPanel panel = new JPanel();
+    public void initJPanel(){
+        panel = new JPanel();
         panel.setBackground(new Color(233, 150, 122));
         panel.setBounds(0, 6, 900, 466);
         panel.setLayout(null);
-        jFrame.getContentPane().add(panel);
 
         // BookIsbn
         JLabel lBookIsbn = new JLabel(BOOK_ISBN);
@@ -75,7 +65,7 @@ public class OverdueBookWindow {
             // Validation: Null values
             if (bookIsbn.getText().isEmpty())
                 JOptionPane.showMessageDialog(null, "Please fill ISBN field!");
-            // Validation: Book ISBN exists
+                // Validation: Book ISBN exists
             else if (!ci.allBookIds().contains(bookIsbn.getText()))
                 JOptionPane.showMessageDialog(null, "Book ISBN does not exist!");
 
@@ -119,6 +109,21 @@ public class OverdueBookWindow {
         });
         panel.add(btnClear);
 
+    }
+    private void init() {
+        // FRAME
+        jFrame = new JFrame();
+        jFrame.setTitle("Overdue Book");
+        jFrame.getContentPane().setForeground(new Color(255, 255, 255));
+        jFrame.setBounds(100, 100, 800, 500);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.getContentPane().setLayout(null);
+
+        // PANEL
+        initJPanel();
+        jFrame.getContentPane().add(panel);
+
+
         // Button Back
         JButton btnBack = new JButton("Back");
         btnBack.setBounds(600, 15, 117, 29);
@@ -130,7 +135,9 @@ public class OverdueBookWindow {
         // show frame
         jFrame.setVisible(true);
     }
-
+    public JPanel getPanel(){
+        return panel;
+    }
     public void addnewBook() {
         Address address = new Address("C", "ff", "ia", "52556");
         Author auth = new Author("bodi", "bat", "233-233-2333", address, "bio");
