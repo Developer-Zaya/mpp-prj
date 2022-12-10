@@ -7,8 +7,11 @@ import dataaccess.DataAccessFacade;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class OverdueBookWindow {
@@ -31,6 +34,7 @@ public class OverdueBookWindow {
         recordModel = new DefaultTableModel();
         recordModel.setColumnIdentifiers(RECORD_COLUMN);
         // records = da.readRecordsMap();
+        loadData();
     }
 
     public static void main(String[] args) {
@@ -105,10 +109,15 @@ public class OverdueBookWindow {
         btnClear.setBounds(450, 15, 117, 29);
         btnClear.addActionListener(e -> {
             bookIsbn.setText("");
-            addnewBook();
+            //addnewBook();
         });
+        JButton btnRefresh = new JButton("Refresh");
+        btnRefresh.setBounds(600, 15, 117, 29);
+        btnRefresh.addActionListener(e -> {
+           loadData();
+        });
+        panel.add(btnRefresh);
         panel.add(btnClear);
-
     }
     private void init() {
         // FRAME
@@ -131,12 +140,25 @@ public class OverdueBookWindow {
             jFrame.setVisible(false);
         });
         panel.add(btnBack);
-
         // show frame
         jFrame.setVisible(true);
+
     }
+
     public JPanel getPanel(){
         return panel;
+    }
+    public void loadData(){
+        HashMap<String,CheckoutRecord> records= da.readUserRecords();
+        recordModel.setRowCount(0);
+        for(CheckoutRecord r : records.values()){
+            if(LocalDateTime.now().isAfter(r.getDueDate())){
+                String[] row = { r.getBookCopy().getBook().getIsbn(), r.getBookCopy().getBook().getTitle(), String.valueOf(r.getBookCopy().getCopyNum()),
+                        r.getLibraryMember().getMemberId(),
+                        DATE_TIME_FORMATTER.format(r.getDueDate()) };
+                recordModel.addRow(row);
+            }
+        }
     }
     public void addnewBook() {
         Address address = new Address("C", "ff", "ia", "52556");

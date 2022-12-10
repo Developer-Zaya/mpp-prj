@@ -1,13 +1,11 @@
 package dataaccess;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import business.Address;
-import business.Author;
-import business.Book;
-import business.LibraryMember;
+import business.*;
 
 /**
  * This class loads data into the data repository and also sets up the storage
@@ -30,8 +28,16 @@ public class TestData {
 //		System.out.println(da.readUserMap());
 		
 		DataAccess da = new DataAccessFacade();
-		String map = da.readBooksMap().toString();
-		System.out.println(map);
+//		String map = da.readBooksMap().toString();
+//		System.out.println(map);
+		ControllerInterface ci = new SystemController();
+		Book book = ci.getBook("12-45678");
+		LibraryMember member = ci.getMember("1001");
+		BookCopy copy = book.getNextAvailableCopy();
+		CheckoutRecord record = new CheckoutRecord(member, copy,LocalDateTime.of(2020,12,29,18,30));
+		book.updateCopies(copy);
+		da.saveAndUpdateBook(book);
+		da.saveNewCheckoutRecord(record);
 	}
 
 	/// create books

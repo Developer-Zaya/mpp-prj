@@ -78,7 +78,7 @@ public class WindowComponents {
                 memberCheckoutRecordWindow.initJPanel();
                 panel.add(windowName, memberCheckoutRecordWindow.getPanel());
                 panel.setSize(memberCheckoutRecordWindow.getPanel().getSize());
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
                 return;
             /*
              * TODO
@@ -89,7 +89,7 @@ public class WindowComponents {
                 checkoutBookWindow.initJPanel();
                 panel.add(windowName, checkoutBookWindow.getPanel());
                 panel.setSize(checkoutBookWindow.getPanel().getSize());
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
                 return;
             /*
              * SUGGESTION
@@ -102,7 +102,7 @@ public class WindowComponents {
                 panel.add(windowName, AddBookWindow.INSTANCE.getPanel());
                 panel.setSize(350,600);
 
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
                 return;
             /*
              * WARNING USER ON CLICK EVENT MAYBE BUGGED
@@ -113,7 +113,7 @@ public class WindowComponents {
                 AddMemberWindow.INSTANCE.initJPanel();
                 panel.add(windowName, AddMemberWindow.INSTANCE.getPanel());
                 panel.setSize(AddMemberWindow.INSTANCE.getPanel().getSize());
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
 
                 return;
             /*
@@ -125,7 +125,7 @@ public class WindowComponents {
                 addCopyWindow.initJPanel();
                 panel.add(windowName, addCopyWindow.getPanel());
                 panel.setSize(addCopyWindow.getPanel().getSize());
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
 
                 return;
             case LibrarianConstants.OVER_DUE_BOOK:
@@ -134,7 +134,7 @@ public class WindowComponents {
                 overdueBookWindow.initJPanel();
                 panel.add(windowName, overdueBookWindow.getPanel());
                 panel.setSize(overdueBookWindow.getPanel().getSize());
-                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight());
+                panel.getTopLevelAncestor().setSize(panel.getWidth() + 170, panel.getHeight()+40);
                 return;
             default:
                 return;

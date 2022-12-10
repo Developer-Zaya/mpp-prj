@@ -29,6 +29,18 @@ public class CheckoutRecord implements Serializable, Comparable<CheckoutRecord> 
         copy.changeAvailability();
         System.out.println("Record Saved: " + recordId);
     }
+    public CheckoutRecord(LibraryMember member, BookCopy copy,LocalDateTime checkoutDate) {
+        libraryMember = member;
+        bookCopy = copy;
+        this.checkoutDate =checkoutDate;
+        dueDate = checkoutDate.plusDays(copy.getBook().getMaxCheckoutLength());
+        recordId = member.getMemberId() + "_" +
+                bookCopy.getBook().getIsbn() + "_" +
+                bookCopy.getCopyNum() + "_" +
+                DATE_TIME_FORMATTER.format(checkoutDate);
+        copy.changeAvailability();
+        System.out.println("Record Saved: " + recordId);
+    }
 
     public LibraryMember getLibraryMember() {
         return libraryMember;

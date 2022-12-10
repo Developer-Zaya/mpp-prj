@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
         setBounds(100, 100, 900, 800);
         setTitle("GROUP-10");
         getContentPane().setLayout(null);
-        setResizable(false);
+        setResizable(true);
         JList list = WindowComponents.getJlist();
         list.setFont(new Font("SansSerif", Font.BOLD, 17));
         list.setBounds(10, 11, 156, 740);

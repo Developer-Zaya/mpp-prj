@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 public class AddCopyWindow {
 
@@ -31,6 +32,7 @@ public class AddCopyWindow {
     public AddCopyWindow() {
         bookModel = new DefaultTableModel();
         bookModel.setColumnIdentifiers(RECORD_COLUMN);
+        loadData();
     }
 
     public static void main(String[] args) {
@@ -76,7 +78,7 @@ public class AddCopyWindow {
                 // add to table
                 if (book != null) {
                     if (bookModel.getRowCount() > 0)
-                        bookModel.removeRow(0);
+                        bookModel.setRowCount(0);
                     bookModel.addRow(new String[]{
                             book.getIsbn(),
                             book.getTitle(),
@@ -109,14 +111,7 @@ public class AddCopyWindow {
                 da.saveAndUpdateBook(book);
                 // add to table
                 if (book != null) {
-                    if (bookModel.getRowCount() > 0)
-                        bookModel.removeRow(0);
-                    bookModel.addRow(new String[]{
-                            book.getIsbn(),
-                            book.getTitle(),
-                            String.valueOf(book.getNumCopies()),
-                            String.valueOf(book.getAvaialbeCopyNum()),
-                    });
+                    loadData();
                 }
                 assert book != null;
                 JOptionPane.showMessageDialog(null, String.format(
@@ -126,7 +121,15 @@ public class AddCopyWindow {
             }
         });
         panel.add(btnAddCopy);
-
+        /*
+        * Refresh Button
+        * */
+        JButton btnRefresh = new JButton("refresh");
+        btnRefresh.setBounds(450, 45, 117, 29);
+        btnRefresh.addActionListener(e -> {
+            loadData();
+        });
+        panel.add(btnRefresh);
         // Table
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setBounds(6, 180, 800, 287);
@@ -146,6 +149,20 @@ public class AddCopyWindow {
         });
         panel.add(btnClear);
 
+    }
+    private void loadData(){
+        HashMap<String,Book> books = da.readBooksMap();
+        System.out.println(books.entrySet());
+        bookModel.setRowCount(0);
+        for(Book b : books.values()){
+            bookModel.addRow(new String[]{
+                    b.getIsbn(),
+                    b.getTitle(),
+                    String.valueOf(b.getNumCopies()),
+                    String.valueOf(b.getAvaialbeCopyNum()),
+            });
+
+        }
     }
     private void init() {
         // FRAME
