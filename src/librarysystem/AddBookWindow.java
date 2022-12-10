@@ -255,8 +255,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 				return;
 			}
 			// author
-			if (savedAuthors.size() == 0)
-				saveAuthor();
+			saveAuthor();
 
 			int selectedMaxCheckoutLength = maxLengthRadio21.isSelected() ? 21 : 7;
 			Book book = new Book(isbnText.getText(), titleText.getText(),
