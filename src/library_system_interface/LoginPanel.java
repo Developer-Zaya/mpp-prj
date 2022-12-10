@@ -2,12 +2,16 @@ package library_system_interface;
 
 import javax.swing.*;
 
+import business.ControllerInterface;
+import business.SystemController;
 import login_system.UserFactory;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginPanel extends JPanel {
 	private JTextField userIDInput;
@@ -52,10 +56,23 @@ public class LoginPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(UserFactory.login(userIDInput.getText(), passwordInput.getText())) {
-					WindowComponents.changeList();
+				if(userIDInput.getText().isEmpty() ){
+					errorMessage.setText("Please fill the user id field");
+					return;
+				}
+				if(passwordInput.getText().isEmpty()){
+					errorMessage.setText("Please fill the password field");
+					return;
+				}
+				if(!UserFactory.userIDExists(userIDInput.getText())){
+					errorMessage.setText("UserID does not exist");
+					return;
+				}
+//				}
+				if(!UserFactory.login(userIDInput.getText(), passwordInput.getText())) {
+					errorMessage.setText("Password wrong");
 				} else {
-					errorMessage.setText("UserID or Password wrong");
+					WindowComponents.changeList();
 				}
 			}
 			

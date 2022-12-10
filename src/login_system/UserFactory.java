@@ -27,13 +27,20 @@ public class UserFactory {
 		dao = new DataAccessFacade();
 
 	}
+	public static boolean userIDExists(String userID) {
+		dataaccess.User u = dao.readUserMap().get(userID);
+		System.out.println(u);
+		if (u != null) {
+			return true;
+		}
+		return false;
+	}
 	public static boolean login(String userID, String password) {
 		if(isLoggedIn()) {
 			return true;
 		}
 		System.out.println(userID);
 		dataaccess.User u =dao.readUserMap().get(userID);
-
 		System.out.println(u);
 		if(u != null) {
 			System.out.println(u);
