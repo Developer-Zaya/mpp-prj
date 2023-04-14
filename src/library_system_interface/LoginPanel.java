@@ -39,11 +39,11 @@ public class LoginPanel extends JPanel {
 		add(logginBTN);
 		
 		JLabel userIDLabel = new JLabel("User ID :");
-		userIDLabel.setBounds(63, 102, 69, 17);
+		userIDLabel.setBounds(63, 102, 100, 17);
 		add(userIDLabel);
 		
 		JLabel passwordLabel = new JLabel("Password :");
-		passwordLabel.setBounds(56, 162, 76, 14);
+		passwordLabel.setBounds(56, 162, 100, 14);
 		add(passwordLabel);
 		
 		JLabel errorMessage = new JLabel("");

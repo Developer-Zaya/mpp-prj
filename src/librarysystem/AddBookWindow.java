@@ -52,7 +52,7 @@ public class AddBookWindow extends JFrame implements LibWindow {
 	@Override
 	public void init() {
 		mainPanel = new JPanel();
-		mainPanel.setBackground(new Color(233, 150, 122));
+		mainPanel.setBackground(new Color(0, 150, 122));
 		// GridLayout gl = new GridLayout(20, 3, 5, 0);
 		mainPanel.setLayout(null);
 

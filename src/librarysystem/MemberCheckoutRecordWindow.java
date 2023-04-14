@@ -49,7 +49,7 @@ public class MemberCheckoutRecordWindow {
     public void initJPanel(){
         // PANEL
         panel = new JPanel();
-        panel.setBackground(new Color(233, 150, 122));
+        panel.setBackground(new Color(0, 150, 122));
         panel.setBounds(0, 6, 900, 466);
         panel.setLayout(null);
 

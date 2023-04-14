@@ -49,7 +49,7 @@ public class OverdueBookWindow {
     }
     public void initJPanel(){
         panel = new JPanel();
-        panel.setBackground(new Color(233, 150, 122));
+        panel.setBackground(new Color(0, 150, 122));
         panel.setBounds(0, 6, 900, 466);
         panel.setLayout(null);
 

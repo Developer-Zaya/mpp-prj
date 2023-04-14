@@ -4,22 +4,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 
-import java.awt.CardLayout;
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.SoftBevelBorder;
-
 import login_system.UserFactory;
 
-import javax.swing.border.BevelBorder;
 import java.awt.Font;
 
 public class MainWindow extends JFrame {
@@ -47,7 +38,7 @@ public class MainWindow extends JFrame {
         UserFactory.init();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 900, 800);
-        setTitle("GROUP-10");
+        setTitle("GROUP-5");
         getContentPane().setLayout(null);
         setResizable(true);
         JList list = WindowComponents.getJlist();
@@ -71,7 +62,7 @@ public class MainWindow extends JFrame {
 //		WindowComponents.changeList();
         JPanel panel = WindowComponents.getJPanel();
         panel.setBackground(new Color(255, 255, 255));
-        panel.setBounds(176, 11, 650, 740);
+        panel.setBounds(300, 180, 650, 740);
         getContentPane().add(panel);
         WindowComponents.changeJPanel(UserFactory.getUser().getWindows()[0]);
 
