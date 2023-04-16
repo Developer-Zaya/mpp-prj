@@ -19,15 +19,15 @@ import business.*;
 public class TestData {
 
 	public static void main(String[] args) {
-//		TestData td = new TestData();
-//		td.bookData();
-//		td.libraryMemberData();
-//		td.userData();
-//		DataAccess da = new DataAccessFacade();
-//		System.out.println(da.readBooksMap());
-//		System.out.println(da.readUserMap());
-		
+		TestData td = new TestData();
+		td.bookData();
+		td.libraryMemberData();
+		td.userData();
 		DataAccess da = new DataAccessFacade();
+		System.out.println(da.readBooksMap());
+		System.out.println(da.readUserMap());
+		
+		// DataAccess da = new DataAccessFacade();
 //		String map = da.readBooksMap().toString();
 //		System.out.println(map);
 		ControllerInterface ci = new SystemController();
@@ -49,6 +49,7 @@ public class TestData {
 		allBooks.get(2).addCopy();
 		allBooks.get(2).addCopy();
 		DataAccessFacade.loadBookMap(allBooks);
+		DataAccessFacade.loadCheckoutMap(allCheckouts);
 	}
 
 	public void userData() {
@@ -105,6 +106,12 @@ public class TestData {
 			add(new Book("28-12331", "Antartica", 7, Arrays.asList(allAuthors.get(2))));
 			add(new Book("99-22223", "Thinking Java", 21, Arrays.asList(allAuthors.get(3))));
 			add(new Book("48-56882", "Jimmy's First Day of School", 7, Arrays.asList(allAuthors.get(4))));
+		}
+	};
+
+	@SuppressWarnings("serial")
+	List<CheckoutRecord> allCheckouts = new ArrayList<CheckoutRecord>() {
+		{
 		}
 	};
 
